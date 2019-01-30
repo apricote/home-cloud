@@ -1,0 +1,4 @@
+keys/id_terraform*
+credentials.tfvars
+terraform.tfstate*
+.terraform

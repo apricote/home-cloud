@@ -1,0 +1,1 @@
+Please execute ./bootstrap-keys.sh to generate TLS key for Terraform.
