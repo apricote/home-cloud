@@ -18,8 +18,4 @@ provider "hcloud" {
 resource "hcloud_ssh_key" "terraform" {
   name       = "terraform"
   public_key = "${file("./keys/id_terraform.pub")}"
-
-  labels = {
-    "description" = "Used by terraform to provision nodes"
-  }
 }

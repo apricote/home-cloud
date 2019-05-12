@@ -3,6 +3,29 @@ resource hcloud_server control {
   name        = "control${count.index}"
   image       = "ubuntu-18.04"
   server_type = "cx21"
+
+  ssh_keys = ["${hcloud_ssh_key.terraform.id}"]
+
+  connection {
+    private_key = "${file("./keys/id_terraform")}"
+  }
+
+  user_data = <<END
+#cloud-config
+package_upgrade: true
+packages:
+ - docker.io
+END
+
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status --wait",
+    ]
+  }
+
+  lifecycle {
+    create_before_destroy = false
+  }
 }
 
 resource hcloud_server compute {
@@ -10,28 +33,107 @@ resource hcloud_server compute {
   name        = "compute${count.index}"
   image       = "ubuntu-18.04"
   server_type = "cx21"
+
+  ssh_keys = ["${hcloud_ssh_key.terraform.id}"]
+
+  connection {
+    private_key = "${file("./keys/id_terraform")}"
+  }
+
+  user_data = <<END
+#cloud-config
+package_upgrade: true
+packages:
+ - docker.io
+END
+
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status --wait",
+    ]
+  }
+
+  lifecycle {
+    create_before_destroy = false
+  }
 }
 
-data "template_file" "ansible_inventory" {
-  template = "${file("${path.module}/templates/ansible_inventory.cfg")}"
+resource rke_cluster "cluster" {
+  services_kube_api {
+    extra_args = {
+      feature-gates = "CSINodeInfo=true,CSIDriverRegistry=true"
+    }
+  }
 
-  depends_on = [
-    "hcloud_server.control",
-    "hcloud_server.compute",
+  services_kubelet {
+    extra_args = {
+      feature-gates = "CSINodeInfo=true,CSIDriverRegistry=true"
+    }
+  }
+
+  addons = <<EOL
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hcloud-csi
+  namespace: kube-system
+stringData:
+  token: ${var.hcloud_csi_token}
+---
+EOL
+
+  addons_include = [
+    "https://raw.githubusercontent.com/kubernetes/csi-api/release-1.13/pkg/crd/manifests/csidriver.yaml",
+    "https://raw.githubusercontent.com/kubernetes/csi-api/release-1.13/pkg/crd/manifests/csinodeinfo.yaml",
+    "https://raw.githubusercontent.com/hetznercloud/csi-driver/master/deploy/kubernetes/hcloud-csi.yml",
+    "https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml",
   ]
 
-  vars {
-    control = "${join("\n", hcloud_server.control.*.ipv4_address)}"
-    compute = "${join("\n", hcloud_server.compute.*.ipv4_address)}"
+  nodes {
+    address = "${hcloud_server.control.0.ipv4_address}"
+    user    = "root"
+    role    = ["controlplane", "etcd"]
+    ssh_key = "${file("keys/id_terraform")}"
+  }
+
+  nodes {
+    address = "${hcloud_server.control.1.ipv4_address}"
+    user    = "root"
+    role    = ["controlplane", "etcd"]
+    ssh_key = "${file("keys/id_terraform")}"
+  }
+
+  nodes {
+    address = "${hcloud_server.control.2.ipv4_address}"
+    user    = "root"
+    role    = ["controlplane", "etcd"]
+    ssh_key = "${file("keys/id_terraform")}"
+  }
+
+  nodes {
+    address = "${hcloud_server.compute.0.ipv4_address}"
+    user    = "root"
+    role    = ["worker"]
+    ssh_key = "${file("keys/id_terraform")}"
+  }
+
+  nodes {
+    address = "${hcloud_server.compute.1.ipv4_address}"
+    user    = "root"
+    role    = ["worker"]
+    ssh_key = "${file("keys/id_terraform")}"
+  }
+
+  nodes {
+    address = "${hcloud_server.compute.2.ipv4_address}"
+    user    = "root"
+    role    = ["worker"]
+    ssh_key = "${file("keys/id_terraform")}"
   }
 }
 
-resource "null_resource" "ansible_inventory" {
-  triggers {
-    template_rendered = "${data.template_file.ansible_inventory.rendered}"
-  }
-
-  provisioner "local-exec" {
-    command = "echo '${data.template_file.ansible_inventory.rendered}' > ansible_inventory"
-  }
+resource local_file kube_cluster_yaml {
+  filename = "${path.root}/kube_config_cluster.yml"
+  content  = "${rke_cluster.cluster.kube_config_yaml}"
 }
