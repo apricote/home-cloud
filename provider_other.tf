@@ -1,11 +1,12 @@
-provider "null" {
-  version = "~> 1.0"
+
+provider random {
+  version = "~> 2.2"
 }
 
-provider "local" {
-  version = "~> 1.2"
+provider tls {
+  version = "~> 2.1"
 }
 
-provider "template" {
-  version = "~> 1.0"
+provider template {
+  version = "~> 2.1"
 }
