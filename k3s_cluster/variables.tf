@@ -65,3 +65,12 @@ variable cert_manager_version {
   type    = string
   default = "v0.14.3"
 }
+
+variable flux_version {
+  type    = string
+  default = "v1.3.0"
+}
+
+variable flux_git_url {
+  type = string
+}

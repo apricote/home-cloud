@@ -16,6 +16,11 @@ locals {
     version = var.cert_manager_version
     email   = var.letsencrypt_email
   })
+
+  manifest_flux = templatefile("${path.module}/files/k8s-apps/flux.yaml", {
+    version = var.flux_version
+    git_url = var.flux_git_url
+  })
 }
 
 resource null_resource install_manifests {
@@ -26,6 +31,7 @@ resource null_resource install_manifests {
     hcloud_csi_driver = sha256(local.manifest_hcloud_csi_driver)
     cert_manager_crds = sha256(local.manifest_cert_manager_crds)
     cert_manager      = sha256(local.manifest_cert_manager)
+    flux              = sha256(local.manifest_flux)
   }
 
   connection {
@@ -46,6 +52,11 @@ resource null_resource install_manifests {
   provisioner file {
     content     = local.manifest_cert_manager
     destination = "${local.k3s_manifest_folder}/cert-manager.yaml"
+  }
+
+  provisioner file {
+    content     = local.manifest_flux
+    destination = "${local.k3s_manifest_folder}/flux.yaml"
   }
 }
 
