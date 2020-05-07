@@ -54,7 +54,7 @@ variable k3s_cluster_secret {
 
 variable hcloud_csi_driver_version {
   type    = string
-  default = "v1.2.3"
+  default = "v1.3.0"
 }
 
 variable hcloud_csi_driver_token {
@@ -63,7 +63,7 @@ variable hcloud_csi_driver_token {
 
 variable cert_manager_version {
   type    = string
-  default = "v0.14.3"
+  default = "v0.15.0"
 }
 
 variable flux_version {
