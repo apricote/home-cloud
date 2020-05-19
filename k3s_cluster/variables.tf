@@ -74,3 +74,8 @@ variable flux_version {
 variable flux_git_url {
   type = string
 }
+
+variable helm_operator_version {
+  type    = string
+  default = "v1.0.1"
+}
