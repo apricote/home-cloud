@@ -40,6 +40,8 @@ variable letsencrypt_email {
 variable ssh_keys {
   type    = list(string)
   default = []
+
+  sensitive = true
 }
 
 variable install_k3s_version {
@@ -50,6 +52,8 @@ variable install_k3s_version {
 variable k3s_cluster_secret {
   type    = string
   default = null
+
+  sensitive = true
 }
 
 variable hcloud_csi_driver_version {
@@ -59,6 +63,8 @@ variable hcloud_csi_driver_version {
 
 variable hcloud_csi_driver_token {
   type = string
+ 
+  sensitive = true
 }
 
 variable cert_manager_version {
