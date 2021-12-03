@@ -4,7 +4,7 @@ variable "hcloud_token" {}
 
 # Configure the Hetzner Cloud Provider
 provider hcloud {
-  version = "~> 1.16.0"
+  version = "~> 1.30"
 
   token = var.hcloud_token
 }
