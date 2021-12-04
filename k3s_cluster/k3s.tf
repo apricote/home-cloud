@@ -33,7 +33,7 @@ locals {
 
 }
 
-resource null_resource install_manifests {
+resource "null_resource" "install_manifests" {
   triggers = {
     server_id = hcloud_server.server.id
 
@@ -53,29 +53,29 @@ resource null_resource install_manifests {
   }
 
 
-  provisioner remote-exec {
+  provisioner "remote-exec" {
     inline = [local.manifest_hcloud_csi_driver]
   }
 
-  provisioner remote-exec {
+  provisioner "remote-exec" {
     inline = [local.manifest_cert_manager_crds]
   }
 
-  provisioner remote-exec {
+  provisioner "remote-exec" {
     inline = [local.manifest_helm_operator_crds]
   }
 
-  provisioner file {
+  provisioner "file" {
     content     = local.manifest_cert_manager
     destination = "${local.k3s_manifest_folder}/cert-manager.yaml"
   }
 
-  provisioner file {
+  provisioner "file" {
     content     = local.manifest_flux
     destination = "${local.k3s_manifest_folder}/flux.yaml"
   }
 
-  provisioner file {
+  provisioner "file" {
     content     = local.manifest_helm_operator
     destination = "${local.k3s_manifest_folder}/helm-operator.yaml"
   }
