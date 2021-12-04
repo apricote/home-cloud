@@ -18,5 +18,20 @@ terraform {
     null = {
       source = "hashicorp/null"
     }
+
+    github = {
+      source = "integrations/github"
+    }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.10.0"
+    }
+    flux = {
+      source  = "fluxcd/flux"
+      version = ">= 0.0.13"
+    }
   }
 }

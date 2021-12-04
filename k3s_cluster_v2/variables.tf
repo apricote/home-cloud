@@ -54,4 +54,36 @@ variable "ssh_key" {
 variable "hcloud_ccm_token" {
   description = "HCloud API Token used by the hcloud-cloud-controller-manager"
   type        = string
+  sensitive   = true
+}
+
+## Flux
+variable "github_owner" {
+  type = string
+}
+
+variable "github_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "repository_name" {
+  type = string
+}
+
+variable "branch" {
+  type = string
+}
+
+variable "repository_visibility" {
+  type = string
+}
+
+variable "flux_version" {
+  type = string
+}
+
+variable "target_path" {
+  type        = string
+  description = "Relative path to the Git repository root where Flux manifests are committed."
 }

@@ -38,6 +38,17 @@ module "k3s_cluster_v2" {
   ssh_key             = file("~/.ssh/id_rsa.pub")
   hcloud_ccm_token    = var.hcloud_ccm_token
 
+  ## Flux
+  github_owner          = "apricote"
+  github_token          = var.github_token
+  repository_name       = "home-cloud-flux-v2"
+  branch                = "main"
+  repository_visibility = "private"
+  target_path           = ""
+  flux_version          = "v0.24.0"
+
+
+
   providers = {
     hcloud = hcloud
   }
