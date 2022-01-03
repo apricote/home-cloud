@@ -3,7 +3,7 @@ TFFLAGS=-var-file=credentials.tfvars
 VALIDATE=terraform validate -check-variables=false
 
 apply: init
-	$(TF) apply $(TFFLAGS) 
+	$(TF) apply $(TFFLAGS)
 
 plan: init
 	$(TF) plan $(TFFLAGS)

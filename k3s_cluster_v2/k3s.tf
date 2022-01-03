@@ -53,38 +53,38 @@ provider "kubernetes" {
   client_key             = module.k3s.kubernetes.client_key
 }
 
-resource "kubernetes_service_account" "bootstrap" {
+resource "kubernetes_service_account" "admin" {
   depends_on = [module.k3s.kubernetes_ready]
 
   metadata {
-    name      = "bootstrap"
+    name      = "admin"
     namespace = "default"
   }
 }
 
-resource "kubernetes_cluster_role_binding" "boostrap" {
+resource "kubernetes_cluster_role_binding" "admin" {
   depends_on = [module.k3s.kubernetes_ready]
 
   metadata {
-    name = "bootstrap"
+    name = "admin"
   }
 
   subject {
     kind      = "ServiceAccount"
-    name      = "bootstrap"
+    name      = "admin"
     namespace = "default"
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = "admin"
+    name      = "cluster-admin"
   }
 }
 
 data "kubernetes_secret" "sa_credentials" {
   metadata {
-    name      = kubernetes_service_account.bootstrap.default_secret_name
+    name      = kubernetes_service_account.admin.default_secret_name
     namespace = "default"
   }
 }
