@@ -39,13 +39,14 @@ module "k3s_cluster_v2" {
   hcloud_ccm_token    = var.hcloud_ccm_token
 
   ## Flux
-  github_owner          = "apricote"
-  github_token          = var.github_token
-  repository_name       = "home-cloud-flux-v2"
-  branch                = "main"
-  repository_visibility = "private"
-  target_path           = ""
-  flux_version          = "v0.24.0"
+  github_owner                    = "apricote"
+  github_token                    = var.github_token
+  github_token_flux_notifications = var.github_token_flux_notifications
+  repository_name                 = "home-cloud-flux-v2"
+  branch                          = "main"
+  repository_visibility           = "private"
+  target_path                     = ""
+  flux_version                    = "v0.24.0"
 
 
 

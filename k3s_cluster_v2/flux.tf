@@ -92,6 +92,18 @@ resource "kubernetes_secret" "main" {
   }
 }
 
+resource "kubernetes_secret" "github_notifications" {
+  metadata {
+    name      = "github"
+    namespace = data.flux_sync.main.namespace
+  }
+
+  data = {
+    token = var.github_token_flux_notifications
+  }
+}
+
+
 # GitHub
 resource "github_repository" "main" {
   name       = var.repository_name

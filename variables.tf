@@ -9,6 +9,13 @@ variable "hcloud_ccm_token" {
 }
 
 variable "github_token" {
-  type      = string
-  sensitive = true
+  description = "Github Personal Access Token that is used by Terraform"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_token_flux_notifications" {
+  description = "GH PAT used by flux for notifications"
+  type        = string
+  sensitive   = true
 }

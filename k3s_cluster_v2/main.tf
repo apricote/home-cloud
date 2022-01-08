@@ -44,3 +44,19 @@ resource "hcloud_rdns" "k3s" {
   ip_address       = hcloud_load_balancer.k3s.ipv4
   dns_ptr          = var.domain
 }
+
+### LB Ingress
+
+resource "hcloud_load_balancer_service" "ingress_https" {
+  load_balancer_id = hcloud_load_balancer.k3s.id
+  protocol         = "tcp"
+  listen_port      = 443
+  destination_port = 32443
+}
+
+resource "hcloud_load_balancer_service" "ingress_http" {
+  load_balancer_id = hcloud_load_balancer.k3s.id
+  protocol         = "tcp"
+  listen_port      = 80
+  destination_port = 32080
+}

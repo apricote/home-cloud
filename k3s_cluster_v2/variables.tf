@@ -67,6 +67,11 @@ variable "github_token" {
   sensitive = true
 }
 
+variable "github_token_flux_notifications" {
+  type      = string
+  sensitive = true
+}
+
 variable "repository_name" {
   type = string
 }

@@ -25,7 +25,12 @@ module "k3s" {
 
         agent = true
       }
-      flags       = ["--disable-cloud-controller", "--tls-san ${var.domain}"]
+      flags = [
+        "--disable-cloud-controller",
+        "--tls-san ${var.domain}",
+        # We need to modify the helm release to work with one loadbalancer for api+ingress
+        "--disable traefik"
+      ]
       annotations = { "server_id" : i } // theses annotations will not be managed by this module
     }
   }

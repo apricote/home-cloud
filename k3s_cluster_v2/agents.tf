@@ -20,3 +20,11 @@ resource "hcloud_server_network" "agents_network" {
   subnet_id = hcloud_network_subnet.k3s_nodes.id
   ip        = cidrhost(hcloud_network_subnet.k3s_nodes.ip_range, 1 + var.control_count + count.index)
 }
+
+resource "hcloud_load_balancer_target" "ingress" {
+  count            = var.compute_count
+  type             = "server"
+  load_balancer_id = hcloud_load_balancer.k3s.id
+  server_id        = hcloud_server.agents[count.index].id
+  use_private_ip   = true
+}

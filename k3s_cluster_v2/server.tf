@@ -35,4 +35,5 @@ resource "hcloud_load_balancer_target" "api" {
   type             = "server"
   load_balancer_id = hcloud_load_balancer.k3s.id
   server_id        = hcloud_server.control_planes[count.index].id
+  use_private_ip   = true
 }
