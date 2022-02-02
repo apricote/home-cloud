@@ -23,6 +23,7 @@ resource "tls_private_key" "main" {
 # Flux
 data "flux_install" "main" {
   target_path = var.target_path
+  version = "v0.26.0"
 }
 
 data "flux_sync" "main" {
