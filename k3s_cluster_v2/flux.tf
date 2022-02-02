@@ -110,6 +110,14 @@ resource "github_repository" "main" {
   name       = var.repository_name
   visibility = var.repository_visibility
   auto_init  = true
+
+  lifecycle {
+    ignore_changes = [
+      # Ignored until this issue is resolved:
+      # https://github.com/integrations/terraform-provider-github/issues/1037
+      branches,
+    ]
+  }
 }
 
 resource "github_branch_default" "main" {
