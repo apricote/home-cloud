@@ -3,6 +3,10 @@
 variable "hcloud_token" {}
 
 # Configure the Hetzner Cloud Provider
-provider hcloud {
+provider "hcloud" {
   token = var.hcloud_token
+}
+
+data "hcloud_ssh_key" "default" {
+  name = "default"
 }
