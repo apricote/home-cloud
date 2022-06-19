@@ -46,9 +46,7 @@ module "k3s_cluster_v2" {
   branch                          = "main"
   repository_visibility           = "private"
   target_path                     = ""
-  flux_version                    = "v0.24.0"
-
-
+  flux_version                    = "v0.31.1"
 
   providers = {
     hcloud = hcloud
