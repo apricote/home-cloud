@@ -25,21 +25,6 @@ resource "hcloud_server" "terraria" {
   server_type = "cx21"
   location    = "nbg1"
   ssh_keys    = [data.hcloud_ssh_key.default.id]
-
-  provisioner "file" {
-    content = templatefile("./gameservers/docker-compose.terraria.yml", {
-      image      = "ryshe/terraria"
-      image_tag  = "tshock-1.4.3.6-4.5.17-2"
-      volume_id  = hcloud_volume.terraria_data.id
-      world_name = "TheDriftingMoon"
-    })
-    destination = "/terraria/docker-compose.yml"
-
-    connection {
-      type = "ssh"
-      host = self.ipv4_address
-    }
-  }
 }
 
 resource "hcloud_volume" "terraria_data" {
