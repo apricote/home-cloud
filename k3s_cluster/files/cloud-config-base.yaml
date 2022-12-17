@@ -1,5 +1,0 @@
-#cloud-config
-runcmd:
-  - apt-get update
-  - apt-get install -y software-properties-common
-  - DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
