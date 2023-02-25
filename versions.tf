@@ -9,6 +9,12 @@ terraform {
       source  = "timohirt/hetznerdns"
       version = ">= 2.2.0"
     }
+
+    vercel = {
+      source  = "vercel/vercel"
+      version = ">= 0.11.4"
+    }
+
     random = {
       source = "hashicorp/random"
     }
@@ -21,3 +27,4 @@ terraform {
   }
   required_version = ">= 1.3.3"
 }
+

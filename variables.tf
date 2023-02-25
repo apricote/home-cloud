@@ -19,3 +19,9 @@ variable "github_token_flux_notifications" {
   type        = string
   sensitive   = true
 }
+
+variable "listory_token" {
+  description = "Listory API Token"
+  type        = string
+  sensitive   = true
+}
