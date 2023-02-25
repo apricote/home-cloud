@@ -1,6 +1,6 @@
 TF=terraform
 TFFLAGS=-var-file=credentials.tfvars
-VALIDATE=terraform validate -check-variables=false
+VALIDATE=terraform validate
 
 apply: init
 	$(TF) apply $(TFFLAGS)
@@ -12,13 +12,17 @@ destroy: init
 	$(TF) destroy $(TFFLAGS)
 
 lint: init
-	$(VALIDATE) modules/docker_node
-	$(VALIDATE) modules/floating_ip
-	$(VALIDATE) services/bitwarden
+	$(VALIDATE) k3s_cluster_v2
 	$(VALIDATE) .
 
 init: keys/id_terraform
 	$(TF) init
+
+upgrade:
+	$(TF) init -upgrade
+
+import:
+	$(TF) import $(TFFLAGS) $(ADDR) $(ID)
 
 keys/id_terraform:
 	echo "No private key found! Generating Terraform SSH Keys."
