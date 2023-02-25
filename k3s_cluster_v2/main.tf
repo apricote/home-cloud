@@ -39,9 +39,15 @@ resource "hcloud_load_balancer_network" "k3s" {
 }
 
 
-resource "hcloud_rdns" "k3s" {
+resource "hcloud_rdns" "k3s_ipv4" {
   load_balancer_id = hcloud_load_balancer.k3s.id
   ip_address       = hcloud_load_balancer.k3s.ipv4
+  dns_ptr          = var.domain
+}
+
+resource "hcloud_rdns" "k3s_ipv6" {
+  load_balancer_id = hcloud_load_balancer.k3s.id
+  ip_address       = hcloud_load_balancer.k3s.ipv6
   dns_ptr          = var.domain
 }
 
@@ -59,4 +65,31 @@ resource "hcloud_load_balancer_service" "ingress_http" {
   protocol         = "tcp"
   listen_port      = 80
   destination_port = 32080
+}
+
+### Domain
+
+resource "hetznerdns_record" "ipv4" {
+  zone_id = var.dns_zone_id
+  name    = var.domain
+  value   = hcloud_load_balancer.k3s.ipv4
+  type    = "A"
+  ttl     = 60
+}
+
+resource "hetznerdns_record" "ipv6" {
+  zone_id = var.dns_zone_id
+  name    = var.domain
+  value   = hcloud_load_balancer.k3s.ipv6
+  type    = "AAAA"
+  ttl     = 60
+}
+
+resource "hetznerdns_record" "wildcard" {
+  # *.domain CNAME domain
+  zone_id = var.dns_zone_id
+  name    = "*"
+  value   = var.domain
+  type    = "CNAME"
+  ttl     = 60
 }

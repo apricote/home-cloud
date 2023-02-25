@@ -41,6 +41,10 @@ variable "domain" {
   type = string
 }
 
+variable "dns_zone_id" {
+  type = string
+}
+
 variable "install_k3s_version" {
   type    = string
   default = "v1.22.4+k3s1"

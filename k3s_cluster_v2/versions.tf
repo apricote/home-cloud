@@ -6,6 +6,9 @@ terraform {
     hcloud = {
       source = "hetznercloud/hcloud"
     }
+    hetznerdns = {
+      source = "timohirt/hetznerdns"
+    }
     tls = {
       source = "hashicorp/tls"
     }

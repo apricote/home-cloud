@@ -15,6 +15,7 @@ module "k3s_cluster_v2" {
   control_count       = 1
   compute_count       = 1
   domain              = "c2.apricote.de"
+  dns_zone_id         = hetznerdns_zone.apricote_de.id
   ssh_key             = file("~/.ssh/id_rsa.pub")
   hcloud_ccm_token    = var.hcloud_ccm_token
 
@@ -29,6 +30,7 @@ module "k3s_cluster_v2" {
   flux_version                    = "v0.36.0"
 
   providers = {
-    hcloud = hcloud
+    hcloud     = hcloud
+    hetznerdns = hetznerdns
   }
 }
