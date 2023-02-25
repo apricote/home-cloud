@@ -20,3 +20,11 @@ resource "hcloud_volume_attachment" "terraria_data" {
   server_id = hcloud_server.terraria.id
   automount = true
 }
+
+resource "hetznerdns_record" "terraria" {
+  zone_id = hetznerdns_zone.apricote_de.id
+  name    = "terraria"
+  value   = hcloud_server.terraria.ipv4_address
+  type    = "A"
+  ttl     = 60
+}
