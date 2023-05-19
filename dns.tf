@@ -25,7 +25,7 @@ resource "hetznerdns_record" "apricote_de_ns" {
 resource "hetznerdns_record" "listory" {
   zone_id = hetznerdns_zone.apricote_de.id
   name    = "listory"
-  value   = "c2.apricote.de"
+  value   = "listory.c3-ing.apricote.de."
   type    = "CNAME"
   ttl     = 60
 }
@@ -33,7 +33,24 @@ resource "hetznerdns_record" "listory" {
 resource "hetznerdns_record" "gitea" {
   zone_id = hetznerdns_zone.apricote_de.id
   name    = "gitea"
-  value   = "c2.apricote.de"
+  value   = "gitea.c3-ing.apricote.de."
+  type    = "CNAME"
+  ttl     = 60
+}
+
+resource "hetznerdns_record" "tandoor" {
+  zone_id = hetznerdns_zone.apricote_de.id
+  name    = "tandoor"
+  value   = "tandoor.c3-ing.apricote.de."
+  type    = "CNAME"
+  ttl     = 60
+}
+
+
+resource "hetznerdns_record" "grafana" {
+  zone_id = hetznerdns_zone.apricote_de.id
+  name    = "grafana"
+  value   = "grafana.c3-ing.apricote.de."
   type    = "CNAME"
   ttl     = 60
 }
