@@ -1,5 +1,5 @@
 keys/id_terraform*
-credentials.tfvars
+credentials.auto.tfvars
 terraform.tfstate*
 .terraform
 

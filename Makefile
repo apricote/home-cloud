@@ -1,5 +1,5 @@
 TF=terraform
-TFFLAGS=-var-file=credentials.tfvars
+TFFLAGS=""
 VALIDATE=terraform validate
 
 apply: init
