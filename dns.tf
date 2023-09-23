@@ -122,6 +122,14 @@ resource "hetznerdns_record" "mail_dmarc" {
   ttl     = 60
 }
 
+resource "hetznerdns_record" "google_site_verification_txt" {
+  zone_id = hetznerdns_zone.apricote_de.id
+  name    = "@"
+  value   = "google-site-verification=hm7aA6DgiqqOUu_4tXnPLSqMPSptL0jgFNbXReh3VrY"
+  type    = "TXT"
+  ttl     = 60
+}
+
 # ein-pfeil-am-rechten-fleck.de
 
 resource "hetznerdns_zone" "pfeil" {
