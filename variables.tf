@@ -13,3 +13,27 @@ variable "postgres_databases" {
   }))
   sensitive = true
 }
+
+variable "postgres_password_admin" {
+  description = "Postgres admin password"
+  type        = string
+  sensitive   = true
+}
+
+variable "postgres_password_listory" {
+  description = "Postgres listory password"
+  type        = string
+  sensitive   = true
+}
+
+variable "postgres_password_gitea" {
+  description = "Postgres gitea password"
+  type        = string
+  sensitive   = true
+}
+
+variable "postgres_password_exporter" {
+  description = "Postgres exporter password"
+  type        = string
+  sensitive   = true
+}
