@@ -55,6 +55,14 @@ resource "hetznerdns_record" "grafana" {
   ttl     = 60
 }
 
+resource "hetznerdns_record" "auth" {
+  zone_id = hetznerdns_zone.apricote_de.id
+  name    = "auth"
+  value   = "auth.c3-ing.apricote.de."
+  type    = "CNAME"
+  ttl     = 60
+}
+
 # apricote.de proton.me
 
 resource "hetznerdns_record" "mail_verification" {
@@ -160,5 +168,13 @@ resource "hetznerdns_record" "www_pfeil" {
   name    = "www"
   value   = "cname.vercel-dns.com."
   type    = "CNAME"
+  ttl     = 60
+}
+
+resource "hetznerdns_record" "pfeil_google_site_verification_txt" {
+  zone_id = hetznerdns_zone.pfeil.id
+  name    = "@"
+  value   = "google-site-verification=ax0uv3yF_9rzda4CsLVnIPkeyNjsRx7VRW9vvkrBDts"
+  type    = "TXT"
   ttl     = 60
 }
